@@ -13,3 +13,9 @@ commit-msg:
   jobs:
     - name: commitlint
       run: pnpm commitlint --edit {1}
+
+# Push only goes through if the app builds (turbo cache keeps repeats fast).
+pre-push:
+  jobs:
+    - name: build
+      run: pnpm turbo build --filter=web
