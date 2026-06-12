@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 @source "../../../apps/**/*.{ts,tsx}";
@@ -51,8 +52,8 @@
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
+    --background: oklch(0.988 0.0015 95);
+    --foreground: oklch(0.205 0 0);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
@@ -125,8 +126,113 @@
     }
   body {
     @apply bg-background text-foreground;
+    font-size: 0.9375rem;
+    line-height: 1.65;
     }
   button:not(:disabled), [role="button"]:not(:disabled) {
     cursor: pointer;
     }
+}
+
+/* ---- Code blocks (rehype-pretty-code, dual shiki themes) ---- */
+code[data-theme*=" "],
+code[data-theme*=" "] span {
+  color: var(--shiki-light);
+}
+.dark code[data-theme*=" "],
+.dark code[data-theme*=" "] span {
+  color: var(--shiki-dark);
+}
+
+.prose pre {
+  @apply overflow-x-auto rounded-lg border bg-muted/50 px-0 py-4;
+}
+.prose pre code {
+  @apply grid min-w-full text-sm;
+}
+.prose pre [data-line] {
+  @apply px-4;
+}
+.prose [data-rehype-pretty-code-title] {
+  @apply -mb-2 mt-6 rounded-t-lg border border-b-0 bg-muted px-4 py-2 font-mono text-xs text-muted-foreground;
+}
+.prose [data-rehype-pretty-code-title] + pre {
+  @apply mt-0 rounded-t-none;
+}
+.prose :not(pre) > code {
+  @apply rounded-md border bg-muted px-1.5 py-0.5 font-mono text-[0.85em] font-normal before:content-none after:content-none;
+}
+
+/* ---- Micro-interactions ---- */
+@utility nav-link {
+  @apply relative inline-block rounded-sm px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0.5rem;
+    bottom: 0.125rem;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 200ms ease;
+  }
+  &:hover::after,
+  &[aria-current="page"]::after {
+    transform: scaleX(1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      transition: none;
+    }
+  }
+}
+
+@utility card-lift {
+  @apply transition-[translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0;
+}
+
+@utility reveal {
+  animation: reveal 500ms ease-out both;
+  animation-delay: calc(var(--reveal-i, 0) * 75ms);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 0.75rem;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* ---- View transitions ---- */
+::view-transition-group(*) {
+  animation-duration: 250ms;
+  animation-timing-function: ease-in-out;
+}
+
+/* Keep the header anchored while pages transition under it */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
 }

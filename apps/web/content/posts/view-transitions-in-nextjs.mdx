@@ -1,0 +1,84 @@
+---
+title: "Smooth page transitions with the View Transitions API"
+description: "Using React's ViewTransition component in Next.js 16 for shared-element morphs between pages — with a proper reduced-motion fallback."
+date: "2026-06-08"
+tags: ["nextjs", "css", "animation"]
+cover: "/images/posts/view-transitions-in-nextjs/cover.svg"
+---
+
+The View Transitions API finally gives the web platform a native way to
+animate between pages. Next.js 16 exposes it through React's
+`<ViewTransition>` component behind an experimental flag.
+
+## Enabling it
+
+```ts title="next.config.ts"
+const nextConfig: NextConfig = {
+  experimental: {
+    viewTransition: true,
+  },
+}
+```
+
+## Shared-element morphs
+
+The killer feature is morphing an element from one page into another. Give
+the same `name` to an element on both pages, and the browser animates
+between them:
+
+```tsx
+// On the blog list card:
+<ViewTransition name={`post-title-${slug}`}>
+  <h3>{post.title}</h3>
+</ViewTransition>
+
+// On the post page:
+<ViewTransition name={`post-title-${slug}`}>
+  <h1>{post.title}</h1>
+</ViewTransition>
+```
+
+That's it. No animation library, no layout measurements, no FLIP math.
+
+## Restraint is the feature
+
+The temptation is to morph everything. Resist it — a transition should
+explain where something went, not show off:
+
+<Compare>
+  <CompareItem variant="dont" label="Morph everything, always">
+    Twelve elements flying across the page on every navigation. Nobody can
+    follow any of them.
+  </CompareItem>
+  <CompareItem variant="do" label="One meaningful shared element">
+    The title you clicked morphs into the heading of the page you land on.
+    Everything else simply appears.
+  </CompareItem>
+</Compare>
+
+## Respect reduced motion
+
+Page-wide animation is exactly the kind of thing that can make people
+motion-sick. The fix is a few lines of CSS that disable every transition
+when the user asks for reduced motion:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+```
+
+Browsers that don't support view transitions simply navigate without
+animation — progressive enhancement at its best.
+
+Here's a good talk on the API if you want to go deeper:
+
+<Video
+  src="https://www.youtube.com/watch?v=JCJUPJ_zDQ4"
+  title="Smooth transitions with the View Transition API"
+/>
