@@ -8,6 +8,7 @@ import { Separator } from "@workspace/ui/components/separator"
 import { NewsletterForm } from "@/components/newsletter-form"
 import { PageContainer } from "@/components/page-container"
 import { PostActions } from "@/components/post-actions"
+import { PostStats } from "@/components/post-stats"
 import { TagBadge } from "@/components/tag-badge"
 import { formatDate } from "@/lib/format"
 import { getAllPosts, getPost, getPostPlainText } from "@/lib/posts"
@@ -99,12 +100,15 @@ export default async function PostPage({
             <span aria-hidden>·</span>
             <span>{readingTime(plainText)} min read</span>
           </div>
-          <PostActions
-            slug={post.slug}
-            title={post.title}
-            text={plainText}
-            cover={post.cover}
-          />
+          <div className="flex items-center gap-3">
+            <PostStats slug={post.slug} />
+            <PostActions
+              slug={post.slug}
+              title={post.title}
+              text={plainText}
+              cover={post.cover}
+            />
+          </div>
         </div>
         <ViewTransition name={`post-title-${post.slug}`}>
           <h1 className="mt-2 text-2xl font-semibold tracking-tight text-balance">

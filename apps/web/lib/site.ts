@@ -13,6 +13,7 @@ export const site = {
     { href: "/about", label: "About", key: "A" },
     { href: "/blog", label: "Blog", key: "B" },
     { href: "/uses", label: "Uses", key: "U" },
+    { href: "/contact", label: "Contact", key: "C" },
   ],
   socials: [
     { label: "GitHub", href: "https://github.com/sandeshthapa07" },
