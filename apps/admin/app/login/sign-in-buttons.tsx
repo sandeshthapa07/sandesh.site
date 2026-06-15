@@ -37,7 +37,7 @@ function GoogleIcon() {
   )
 }
 
-export function SignInButtons() {
+export function SignInButtons({ googleEnabled = true }: Readonly<{ googleEnabled?: boolean }>) {
   const [pending, setPending] = React.useState<"github" | "google" | null>(null)
 
   async function signIn(provider: "github" | "google") {
@@ -46,7 +46,7 @@ export function SignInButtons() {
       await authClient.signIn.social({
         provider,
         callbackURL: "/",
-        errorCallbackURL: "/login?error=auth",
+        errorCallbackURL: "/login",
       })
     } catch {
       setPending(null)
@@ -64,15 +64,17 @@ export function SignInButtons() {
         <GitHubIcon />
         {pending === "github" ? "Redirecting…" : "Continue with GitHub"}
       </Button>
-      <Button
-        variant="outline"
-        disabled={pending !== null}
-        onClick={() => signIn("google")}
-        className="justify-center gap-2"
-      >
-        <GoogleIcon />
-        {pending === "google" ? "Redirecting…" : "Continue with Google"}
-      </Button>
+      {googleEnabled && (
+        <Button
+          variant="outline"
+          disabled={pending !== null}
+          onClick={() => signIn("google")}
+          className="justify-center gap-2"
+        >
+          <GoogleIcon />
+          {pending === "google" ? "Redirecting…" : "Continue with Google"}
+        </Button>
+      )}
     </div>
   )
 }

@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
 import { Geist_Mono, Inter } from "next/font/google"
 
-import "@workspace/ui/globals.css"
 import { TooltipProvider } from "@workspace/ui/components/tooltip"
+import "@workspace/ui/globals.css"
 import { cn } from "@workspace/ui/lib/utils"
 
 import { GlobalHotkeys } from "@/components/hotkeys"
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
@@ -52,7 +52,12 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
+      className={cn(
+        "antialiased",
+        fontMono.variable,
+        "font-sans",
+        inter.variable
+      )}
     >
       <body>
         <ThemeProvider>

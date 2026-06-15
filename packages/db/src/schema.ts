@@ -5,6 +5,7 @@ import {
   serial,
   text,
   timestamp,
+  uniqueIndex,
 } from "drizzle-orm/pg-core"
 
 // ---- Portfolio tables ----
@@ -34,9 +35,24 @@ export const postStats = pgTable("post_stats", {
   likes: integer("likes").notNull().default(0),
 })
 
+export const postLikes = pgTable(
+  "post_likes",
+  {
+    id: serial("id").primaryKey(),
+    slug: text("slug").notNull(),
+    ip: text("ip").notNull(),
+    count: integer("count").notNull().default(1),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [uniqueIndex("post_likes_slug_ip_idx").on(t.slug, t.ip)],
+)
+
 export type ContactMessage = typeof contactMessages.$inferSelect
 export type NewsletterSubscriber = typeof newsletterSubscribers.$inferSelect
 export type PostStats = typeof postStats.$inferSelect
+export type PostLike = typeof postLikes.$inferSelect
 
 // ---- better-auth tables (used by apps/admin) ----
 

@@ -1,7 +1,7 @@
+import { Accessibility, Blocks, Sparkles, Zap } from "lucide-react"
 import type { Metadata } from "next"
 import { Caveat } from "next/font/google"
 import Link from "next/link"
-import { Accessibility, Blocks, Sparkles, Zap } from "lucide-react"
 
 import { AnimateIn } from "@/components/animate-in"
 import { LinkPreview } from "@/components/link-preview"
@@ -9,6 +9,7 @@ import { PageContainer } from "@/components/page-container"
 import { PageHeader } from "@/components/page-header"
 import { Signature } from "@/components/signature"
 import { site } from "@/lib/site"
+import { headers } from "next/headers"
 
 const signatureFont = Caveat({ subsets: ["latin"], weight: "600" })
 
@@ -40,7 +41,9 @@ const focusAreas = [
   },
 ]
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const headerList = await headers()
+  console.log("headerList", headerList.get("x-forwarded-for"))
   return (
     <PageContainer>
       <AnimateIn>
@@ -50,7 +53,10 @@ export default function AboutPage() {
         />
       </AnimateIn>
 
-      <AnimateIn delay={0.1} className="mt-8 space-y-4 max-w-prose leading-relaxed text-muted-foreground">
+      <AnimateIn
+        delay={0.1}
+        className="mt-8 max-w-prose space-y-4 leading-relaxed text-muted-foreground"
+      >
         <p>
           I&apos;m {site.name}, a frontend developer at{" "}
           <LinkPreview
@@ -59,9 +65,10 @@ export default function AboutPage() {
           >
             {site.company}
           </LinkPreview>
-          , where I work on React and Next.js applications with a shadcn-based design
-          system. My day-to-day is turning ambiguous designs into interfaces
-          that hold up — to real users, real data, and real keyboards.
+          , where I work on React and Next.js applications with a shadcn-based
+          design system. My day-to-day is turning ambiguous designs into
+          interfaces that hold up — to real users, real data, and real
+          keyboards.
         </p>
         <p>
           I like small, well-crafted things: design systems, native platform
@@ -84,7 +91,10 @@ export default function AboutPage() {
 
       <section aria-labelledby="focus-heading" className="mt-12">
         <AnimateIn delay={0.15}>
-          <h2 id="focus-heading" className="text-xl font-semibold tracking-tight">
+          <h2
+            id="focus-heading"
+            className="text-xl font-semibold tracking-tight"
+          >
             What I care about
           </h2>
         </AnimateIn>

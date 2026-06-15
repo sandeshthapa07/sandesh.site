@@ -4,6 +4,7 @@ import Link from "next/link"
 
 import { CodeBlock } from "@/components/mdx/code-block"
 import { Compare, CompareItem } from "@/components/mdx/compare"
+import { Playground } from "@/components/mdx/playground"
 import { Video } from "@/components/mdx/video"
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
@@ -37,6 +38,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     pre: CodeBlock,
     Compare,
     CompareItem,
+    Playground,
     Video,
     ...components,
   }

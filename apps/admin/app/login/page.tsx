@@ -14,6 +14,7 @@ export const dynamic = "force-dynamic"
 
 const errorMessages: Record<string, string> = {
   forbidden: "This account is not allowed to access the admin panel.",
+  FORBIDDEN: "This account is not allowed to access the admin panel.",
   auth: "Sign-in failed — please try again.",
 }
 
@@ -38,7 +39,9 @@ export default async function LoginPage({
           {errorMessages[error] ?? errorMessages.auth}
         </p>
       ) : null}
-      <SignInButtons />
+      <SignInButtons
+        googleEnabled={!!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET)}
+      />
     </div>
   )
 }

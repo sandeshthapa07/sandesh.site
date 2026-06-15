@@ -1,6 +1,10 @@
 import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import { ThemeProvider } from "next-themes"
 
 import "@workspace/ui/globals.css"
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
 export const metadata: Metadata = {
   title: { default: "Admin", template: "%s — Admin" },
@@ -10,13 +14,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-}) {
+}>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={inter.variable}>
       <body className="min-h-svh bg-background font-sans text-foreground antialiased">
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )
