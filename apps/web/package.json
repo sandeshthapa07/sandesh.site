@@ -4,12 +4,16 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "generate:posts": "node scripts/generate-posts-manifest.mjs",
+    "dev": "pnpm run generate:posts && next dev",
+    "build": "pnpm run generate:posts && next build",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:preview": "opennextjs-cloudflare preview",
+    "cf:deploy": "opennextjs-cloudflare deploy"
   },
   "dependencies": {
     "@huggingface/transformers": "^4.2.0",
@@ -26,7 +30,7 @@
     "gray-matter": "^4.0.3",
     "lucide-react": "^1.17.0",
     "motion": "^12.40.0",
-    "next": "16.2.6",
+    "next": "16.4.0",
     "next-themes": "^0.4.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -39,6 +43,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.9",
     "@tailwindcss/postcss": "^4",
     "@types/mdx": "^2.0.14",
     "@types/node": "^20",
@@ -47,6 +52,7 @@
     "@workspace/eslint-config": "workspace:^",
     "@workspace/typescript-config": "workspace:*",
     "eslint": "^9",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.148.0"
   }
 }

@@ -33,6 +33,8 @@ COPY --from=pruner /app/out/full/ .
 # NEXT_PUBLIC_* values are inlined into the client bundle at build time.
 ARG NEXT_PUBLIC_SITE_URL=https://sandesh.site
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
+# Switches next.config.ts to "standalone" output for this image.
+ENV DOCKER_BUILD=1
 
 RUN pnpm turbo build --filter="$APP"
 

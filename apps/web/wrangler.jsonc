@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sandesh-site-web",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // Non-secret build-time values. Secrets (DATABASE_URL, etc.) must be set
+  // with `wrangler secret put <NAME>` instead of listed here.
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://sandesh.site"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

@@ -2,13 +2,11 @@ import type { NextConfig } from "next"
 import createMDX from "@next/mdx"
 
 const nextConfig: NextConfig = {
-  // Self-contained server bundle for the Docker image.
-  output: "standalone",
+  // Self-contained server bundle for the Docker image only — OpenNext
+  // (Cloudflare Workers build) is incompatible with standalone output.
+  output: process.env.DOCKER_BUILD ? "standalone" : undefined,
   transpilePackages: ["@workspace/ui", "@workspace/db"],
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
-  experimental: {
-    viewTransition: true,
-  },
 }
 
 // Turbopack requires plugins as string identifiers with serializable options.

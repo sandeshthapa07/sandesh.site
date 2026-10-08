@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sandesh-site-admin",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // Non-secret values only. Set DATABASE_URL, BETTER_AUTH_SECRET,
+  // GITHUB_CLIENT_ID/SECRET, GOOGLE_CLIENT_ID/SECRET and ADMIN_EMAILS with
+  // `wrangler secret put <NAME>` instead of listing them here.
+  "vars": {
+    "BETTER_AUTH_URL": "https://admin.sandesh.site"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
